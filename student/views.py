@@ -2,6 +2,7 @@ from django.shortcuts import render ,redirect
 from django.contrib.auth import authenticate , login,logout
 from django.contrib import messages
 from .forms import AddStudent
+from .models import student
 
 def home(request):
 	if request.user.is_authenticated:
@@ -22,3 +23,11 @@ def new_student(request):
 	else:
 		messages.success(request, "You Must Be Login ")
 		return redirect('home')
+
+def student_table(request):
+	students = student.objects.all()
+	if request.user.is_authenticated:
+		return render(request , 'student_table.html' , {'students':students})
+	else:
+		messages.success(request, "You Must Be Login ")
+		return redirect('login')
